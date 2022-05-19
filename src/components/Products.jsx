@@ -1,6 +1,7 @@
 import "./Products.css";
 import { useEffect } from "react";
 const ProductsPage = (props) => {
+  let touchCount = 0;
   // fetch json file from file system
   useEffect(() => {
     const products_Div = document.querySelector(".products_Div");
@@ -227,8 +228,13 @@ const ProductsPage = (props) => {
           //   window.location.href = `/product.html?id=${product_id}`;
           document
             .querySelector(".dataBx")
-            .addEventListener("dblclick", (event) => {
-              DataBox.innerHTML = ``;
+            .addEventListener("click", (event) => {
+              touchCount++;
+              if (touchCount === 2) {
+                DataBox.innerHTML = ``;
+                console.log(touchCount);
+                touchCount = 0;
+              }
             });
         });
       });
@@ -252,6 +258,9 @@ const ProductsPage = (props) => {
       products_Div.appendChild(createDiv);
       createDiv.innerHTML = `<div class='error'>${"failed to load data Try Again!!"}</div>`;
     }
+  };
+  const Logout = async () => {
+    await localStorage.removeItem("name");
   };
   // ...
   return (
@@ -280,6 +289,11 @@ const ProductsPage = (props) => {
             </div>
           </div> */}
         </div>
+      </div>
+      <div className="logoutBtn">
+        <button onClick={Logout}>
+          <i className="fa-regular fa-arrow-up-left-from-circle"></i>
+        </button>
       </div>
     </div>
   );
